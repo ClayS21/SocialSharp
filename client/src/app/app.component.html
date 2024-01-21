@@ -1,0 +1,11 @@
+<h1>Running {{title}}</h1>
+
+<ul>
+    @for (user of users; track $index) 
+    {
+        <li>{{user.id}} - {{user.userName}}</li>
+    }
+    @empty {
+        <li>There are no users to show</li>
+    }
+</ul>
