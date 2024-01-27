@@ -53,7 +53,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "./node_modules/bootswatch/dist/quartz/bootstrap.css",
+              "src/styles.css",
+              "./node_modules/font-awesome/css/font-awesome.css",
+              "./node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
