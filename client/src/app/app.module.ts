@@ -18,11 +18,16 @@ import { TestErrorsComponent } from './errors/test-errors/test-errors.component'
 import { errorInterceptor } from './_interceptors/error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { MemberCardComponent } from './members/member-card/member-card.component';
+import { jwtInterceptor } from './_interceptors/jwt.interceptor';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { loadingInterceptor } from './_interceptors/loading.interceptor';
 
 @NgModule({
-    declarations: [AppComponent, NavComponent, HomeComponent, RegisterComponent, MemberListComponent, MemberDetailComponent, ListsComponent, MessagesComponent, TestErrorsComponent, NotFoundComponent, ServerErrorComponent],
-    imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, SharedModule],
-    providers: [provideAnimations(), provideHttpClient(withInterceptors([errorInterceptor]))],
+    declarations: [AppComponent, NavComponent, HomeComponent, RegisterComponent, MemberListComponent, MemberDetailComponent, ListsComponent, MessagesComponent, TestErrorsComponent, NotFoundComponent, ServerErrorComponent, MemberCardComponent, MemberEditComponent],
+    imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, SharedModule, NgxSpinnerModule],
+    providers: [provideAnimations(), provideHttpClient(withInterceptors([errorInterceptor, jwtInterceptor, loadingInterceptor]))],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
