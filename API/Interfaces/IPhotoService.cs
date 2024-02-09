@@ -6,7 +6,7 @@ using CloudinaryDotNet.Actions;
 
 namespace API.Interfaces
 {
-    public interface IPhotoServices
+    public interface IPhotoService
     {
         Task<ImageUploadResult> AddPhotoAsync(IFormFile file);
 
