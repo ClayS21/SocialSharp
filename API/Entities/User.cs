@@ -35,7 +35,7 @@ namespace API.Entities
 
         // Navigation Properties
 
-        
-        
+
+        public ICollection<Photo> Photos { get; set; } = [];
     }
 }
