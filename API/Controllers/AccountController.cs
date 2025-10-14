@@ -15,12 +15,8 @@ namespace API.Controllers
     public class AccountController(UserManager<User> userManager) : ControllerBase
     {
         [HttpPost("register")]
-        public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)
+        public async Task<ActionResult<UserCredentialsDTO>> Register(RegisterDTO registerDTO)
         {
-            var userExists = userManager.Users.Any(u => u.Email == registerDTO.Email);
-
-            if (userExists) return BadRequest("Unable to register because this e-mail is already in use.");
-
             var user = new User
             {
                 UserName = registerDTO.Email,
@@ -43,7 +39,7 @@ namespace API.Controllers
                 return ValidationProblem();
             }
 
-            return new UserDTO
+            return new UserCredentialsDTO
             {
                 FullName = user.FullName,
                 Email = user.Email,
@@ -52,9 +48,15 @@ namespace API.Controllers
         }
 
         [HttpGet("get-users")]
-        public async Task<ActionResult<IReadOnlyList<User>>> GetUsers()
+        public async Task<ActionResult<IReadOnlyList<UserCredentialsDTO>>> GetUsers()
         {
-            var users = await userManager.Users.ToListAsync();
+            var users = await userManager.Users.Select(u => new UserCredentialsDTO
+            {
+                FullName = u.FullName,
+                Email = u.Email!,
+                Gender = u.Gender,
+                ProfilePictureURL = u.ProfilePictureURL
+            }).ToListAsync();
 
             return users;
         }
