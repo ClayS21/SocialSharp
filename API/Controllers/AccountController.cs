@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController(UserManager<User> userManager) : ControllerBase
+    public class AccountController(UserManager<User> userManager, ITokenService tokenService) : ControllerBase
     {
         [HttpPost("register")]
         public async Task<ActionResult<UserCredentialsDTO>> Register(RegisterDTO registerDTO)
@@ -39,26 +40,34 @@ namespace API.Controllers
                 return ValidationProblem();
             }
 
+            await SetRefreshToken(user);
+
             return new UserCredentialsDTO
             {
+                Id = user.Id,
                 FullName = user.FullName,
                 Email = user.Email,
-                Gender = user.Gender
+                Gender = user.Gender,
+                Token = tokenService.CreateToken(user)
             };
         }
 
-        [HttpGet("get-users")]
-        public async Task<ActionResult<IReadOnlyList<UserCredentialsDTO>>> GetUsers()
+        private async Task SetRefreshToken(User user)
         {
-            var users = await userManager.Users.Select(u => new UserCredentialsDTO
-            {
-                FullName = u.FullName,
-                Email = u.Email!,
-                Gender = u.Gender,
-                ProfilePictureURL = u.ProfilePictureURL
-            }).ToListAsync();
+            var refreshToken = tokenService.CreateRefreshToken();
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+            await userManager.UpdateAsync(user);
 
-            return users;
+            var options = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(7)
+            };
+
+            Response.Cookies.Append("refresh-token", refreshToken, options);
         }
     }
 }
