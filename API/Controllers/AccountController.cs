@@ -76,6 +76,31 @@ namespace API.Controllers
             };
         }
 
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<UserCredentialsDTO>> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["refresh-token"];
+            if (refreshToken is null) return NoContent();
+
+            var user = await userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken && u.RefreshTokenExpiry > DateTime.UtcNow);
+
+            if (user is null) return Unauthorized();
+
+            await SetRefreshToken(user);
+
+            var credentials = new UserCredentialsDTO
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email!,
+                Gender = user.Gender,
+                ProfilePictureURL = user.ProfilePictureURL,
+                Token = tokenService.CreateToken(user)
+            };
+
+            return credentials;
+        }
+
         private async Task SetRefreshToken(User user)
         {
             var refreshToken = tokenService.CreateRefreshToken();
