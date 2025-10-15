@@ -1,6 +1,14 @@
-<form #loginForm="ngForm" (ngSubmit)="login()">
-    <input type="text" name="username" id="" [(ngModel)]="credentials.username">
-    <input type="password" name="password" id="" [(ngModel)]="credentials.password">
+<div class="wrapper">
+    <div class="login-form">
 
-    <button type="submit">Sign In</button>
-</form>
+        <h1>Sign In</h1>
+        <form #loginForm="ngForm" (ngSubmit)="login()">
+            <input type="text" name="username" id="" [(ngModel)]="credentials.username" placeholder="Username">
+            <input type="password" name="password" id="" [(ngModel)]="credentials.password" placeholder="Password">
+        
+            <button type="submit">Sign In</button>
+        </form>
+
+        <p>Don't have an account yet, <a routerLink="/register">sign up here</a></p>
+    </div>
+</div>

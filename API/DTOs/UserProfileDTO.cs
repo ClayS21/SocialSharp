@@ -17,5 +17,7 @@ namespace API.DTOs
         public string? Bio { get; set; }
 
         public ICollection<Photo>? Photos { get; set; }
+
+        public ICollection<Post>? Posts { get; set; }
     }
 }
