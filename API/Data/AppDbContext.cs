@@ -16,8 +16,13 @@ namespace API.Data
 
         public DbSet<Post> Posts { get; set; }
 
+        public DbSet<Like> Likes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Like>().HasKey(l => new { l.UserId, l.PostId });
+
+            
             base.OnModelCreating(builder);
 
             builder.Entity<User>().ToTable("Users");

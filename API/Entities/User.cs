@@ -39,5 +39,7 @@ namespace API.Entities
         public ICollection<Photo> Photos { get; set; } = [];
 
         public ICollection<Post> Posts { get; set; } = [];
+
+        public ICollection<Like> Likes { get; set; } = [];
     }
 }
