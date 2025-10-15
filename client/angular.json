@@ -10,25 +10,30 @@
 					"skipTests": true
 				},
 				"@schematics/angular:component": {
-					"skipTests": true
+					"skipTests": true,
+					"path": "src"
 				},
 				"@schematics/angular:directive": {
 					"skipTests": true
 				},
 				"@schematics/angular:guard": {
-					"skipTests": true
+					"skipTests": true,
+					"path": "src/guards"
 				},
 				"@schematics/angular:interceptor": {
-					"skipTests": true
+					"skipTests": true,
+					"path": "src/interceptors"
 				},
 				"@schematics/angular:pipe": {
 					"skipTests": true
 				},
 				"@schematics/angular:resolver": {
-					"skipTests": true
+					"skipTests": true,
+					"path": "src/resolvers"
 				},
 				"@schematics/angular:service": {
-					"skipTests": true
+					"skipTests": true,
+					"path": "src/services"
 				}
 			},
 			"root": "",
