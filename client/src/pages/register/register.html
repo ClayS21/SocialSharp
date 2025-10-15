@@ -1,1 +1,13 @@
-<p>register works!</p>
+<form [formGroup]="registerForm">
+    <input type="text" formControlName="firstName" placeholder="First Name">
+    <input type="text" formControlName="lastName" placeholder="Last Name">
+    <input type="email" formControlName="email" placeholder="Email">
+    <input type="password" formControlName="password" placeholder="Password">
+    <input type="text" formControlName="gender" placeholder="Gender">
+    <input type="datetime" formControlName="dateOfBirth" placeholder="Date of Birth">
+
+    <button type="submit" (click)="register()">Sign Up</button>
+
+
+
+</form>
