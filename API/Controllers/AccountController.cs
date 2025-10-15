@@ -52,6 +52,30 @@ namespace API.Controllers
             };
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult<UserCredentialsDTO>> Login(LoginDTO login)
+        {
+            var user = await userManager.FindByEmailAsync(login.Username);
+
+            if (user is null) return BadRequest("Invalid email or password");
+
+            var result = await userManager.CheckPasswordAsync(user, login.Password);
+
+            if (!result) return BadRequest("Invalid username or password");
+
+            await SetRefreshToken(user);
+
+            return new UserCredentialsDTO
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email!,
+                Gender = user.Gender,
+                ProfilePictureURL = user.ProfilePictureURL,
+                Token = tokenService.CreateToken(user)
+            };
+        }
+
         private async Task SetRefreshToken(User user)
         {
             var refreshToken = tokenService.CreateRefreshToken();
