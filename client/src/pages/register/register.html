@@ -1,13 +1,13 @@
 <form [formGroup]="registerForm">
     <input type="text" formControlName="firstName" placeholder="First Name">
+    @if (registerForm.controls['firstName'].invalid && registerForm.controls['firstName'].touched) {
+        <span>The first name is required</span>
+    }
     <input type="text" formControlName="lastName" placeholder="Last Name">
     <input type="email" formControlName="email" placeholder="Email">
     <input type="password" formControlName="password" placeholder="Password">
     <input type="text" formControlName="gender" placeholder="Gender">
-    <input type="datetime" formControlName="dateOfBirth" placeholder="Date of Birth">
+    <input type="date" formControlName="dateOfBirth" placeholder="Date of Birth">
 
     <button type="submit" (click)="register()">Sign Up</button>
-
-
-
 </form>

@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { LoginCredentials } from '../../interfaces/user';
+import { AccountService } from '../../services/account-service';
 
 @Component({
     selector: 'login',
@@ -10,13 +11,16 @@ import { RouterLink } from '@angular/router';
     styleUrl: './login.css'
 })
 export class Login {
-    private http = inject(HttpClient);
-    protected credentials: any = {}
+    protected accountService = inject(AccountService)
+    protected router = inject(Router)
+    protected credentials = {} as LoginCredentials
 
-    login()
-    {
-        this.http.post('https://localhost:7060/api/account/login', this.credentials).subscribe({
-            next: response => console.log(response)
+    login() {
+        this.accountService.login(this.credentials).subscribe({
+            next: () => {
+                this.router.navigateByUrl('home');
+            }
         })
+
     }
 }

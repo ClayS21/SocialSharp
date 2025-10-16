@@ -3,8 +3,8 @@
 
         <h1>Sign In</h1>
         <form #loginForm="ngForm" (ngSubmit)="login()">
-            <input type="text" name="username" id="" [(ngModel)]="credentials.username" placeholder="Username">
-            <input type="password" name="password" id="" [(ngModel)]="credentials.password" placeholder="Password">
+            <input type="text" name="username" [(ngModel)]="credentials.userName" placeholder="Username">
+            <input type="password" name="password" [(ngModel)]="credentials.password" placeholder="Password">
         
             <button type="submit">Sign In</button>
         </form>
