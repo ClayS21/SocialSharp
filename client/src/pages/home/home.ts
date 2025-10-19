@@ -16,7 +16,7 @@ export class Home {
     logout() {
         this.accountService.logout().subscribe({
             next: () => {
-                this.router.navigateByUrl('login');
+                this.router.navigateByUrl('/login');
             }
         })
     }

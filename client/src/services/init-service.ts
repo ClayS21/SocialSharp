@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AccountService } from './account-service';
+import { tap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -8,11 +9,13 @@ export class InitService {
     private accountService = inject(AccountService);
 
     start() {
-        this.accountService.refreshToken().subscribe({
-            next: user => {
-                this.accountService.currentUser.set(user);
-            }
-        })
+        return this.accountService.refreshToken().pipe(
+            tap(user => {
+                if (user) {
+                    this.accountService.currentUser.set(user);
+                }
+            })
+        )
     }
 
 }
