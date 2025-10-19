@@ -31,4 +31,16 @@ export class AccountService {
             })
         )
     }
+
+    refreshToken() {
+        return this.http.post<User>(`${this.baseURL}account/refresh-token`, {}, { withCredentials: true });
+    }
+
+    logout() {
+        return this.http.post(`${this.baseURL}account/logout`, {}, { withCredentials: true }).pipe(
+            tap(() => {
+                this.currentUser.set(null)
+            })
+        )
+    }
 }
