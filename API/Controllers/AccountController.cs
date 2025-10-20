@@ -113,7 +113,7 @@ namespace API.Controllers
             var options = new CookieOptions
             {
                 HttpOnly = true,
-                Secure = false,
+                Secure = true,
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddDays(7)
             };
