@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { AccountService } from '../../services/account-service';
 import { Router } from '@angular/router';
 import { Navbar } from "../../components/navbar/navbar";
+import { Sidebar } from "../../components/sidebar/sidebar";
 
 @Component({
     selector: 'home',
-    imports: [Navbar],
+    imports: [Navbar, Sidebar],
     templateUrl: './home.html',
     styleUrl: './home.css'
 })
