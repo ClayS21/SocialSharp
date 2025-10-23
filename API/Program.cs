@@ -13,9 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddControllers();
 builder.Services.AddCors();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddControllers();
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.AddIdentityCore<User>(options =>
