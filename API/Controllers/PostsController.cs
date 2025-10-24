@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +17,7 @@ namespace API.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class PostsController(AppDbContext dbContext) : ControllerBase
+    public class PostsController(AppDbContext dbContext, IPhotoService photoService) : ControllerBase
     {
         public async Task<ActionResult<List<Post>>> GetPosts()
         {
@@ -26,16 +28,30 @@ namespace API.Controllers
         [HttpPost("add-post")]
         public async Task<ActionResult<Post>> AddPost(PostRequest request)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
+            var result = new ImageUploadResult();
+
+            if (request.Image is not null)
+            {
+                result = await photoService.UploadImageAsync(request.Image);
+
+                if (result.Error is not null)
+                {
+                    return BadRequest(result.Error.Message);
+                }
+            }
+
             var newPost = new Post
             {
                 Content = request.Content,
-                ImageURL = 
+                ImageURL = result.SecureUrl.AbsoluteUri,
                 Created = DateTime.UtcNow,
-                UserId = userId
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
 
+            await dbContext.Posts.AddAsync(newPost);
+            await dbContext.SaveChangesAsync();
+
+            return newPost;
         }
 
     }

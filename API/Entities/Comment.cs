@@ -13,8 +13,8 @@ namespace API.Entities
         public DateTime Created { get; set; }
 
         //Foreign keys
-        public int PostId { get; set; }
-        public int UserId { get; set; }
+        public string PostId { get; set; }
+        public string UserId { get; set; }
 
         // Navigation properties
         public Post Post { get; set; }

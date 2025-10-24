@@ -1,6 +1,21 @@
 <navbar></navbar>
 <div class="wrapper">
     <sidebar></sidebar>
-    <div>Main</div>
+    <div>
+        <form #postForm="ngForm" (ngSubmit)="sendPost()" enctype="multipart/form-data">
+            <input type="text" name="content" [(ngModel)]="post.content">
+            <input type="file" name="image" [(ngModel)]="post.image" (change)="fileSelected($event)">
+
+            <button type="submit">Post</button>
+        </form>
+    </div>
+
+    @for (post of posts(); track $index) {
+        <div class="post-container">
+            <span>{{post.content}}</span>
+            <img src="{{post.image}}" alt="">
+        </div>
+    }
+
     <div>Aside</div>
 </div>
